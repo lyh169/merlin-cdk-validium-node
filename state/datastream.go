@@ -393,6 +393,8 @@ func GenerateDataStreamerFile(ctx context.Context, streamServer *datastreamer.St
 			break
 		}
 
+		log.Infof("process the currentBatchNumber is : %d---%d", currentBatchNumber, currentBatchNumber+limit)
+
 		l2Blocks, err := stateDB.GetDSL2Blocks(ctx, batches[0].BatchNumber, batches[len(batches)-1].BatchNumber, nil)
 		if err != nil {
 			log.Errorf("Error getting L2 blocks for batches starting at %d: %s", batches[0].BatchNumber, err.Error())
