@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"math/big"
 	"os"
+	"os/signal"
 	"sync"
 	"time"
 
@@ -278,9 +279,31 @@ func generate(cliCtx *cli.Context) error {
 		os.Exit(1)
 	}
 
+	var cancelFuncs []context.CancelFunc
+
+	waitSignal(cancelFuncs)
+
 	printColored(color.FgGreen, "Process finished\n")
 
 	return nil
+}
+
+func waitSignal(cancelFuncs []context.CancelFunc) {
+	signals := make(chan os.Signal, 1)
+	signal.Notify(signals, os.Interrupt)
+
+	for sig := range signals {
+		switch sig {
+		case os.Interrupt, os.Kill:
+			log.Info("terminating application gracefully...")
+
+			exitStatus := 0
+			for _, cancel := range cancelFuncs {
+				cancel()
+			}
+			os.Exit(exitStatus)
+		}
+	}
 }
 
 func getImStateRoots(ctx context.Context, start, end uint64, isStateRoots *map[uint64][]byte, imStateRootMux *sync.Mutex, stateDB *state.State) {

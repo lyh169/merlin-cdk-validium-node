@@ -3,31 +3,31 @@ URI = "zkevm-sequencer:6900"
 StreamType = 1
 
 [Offline]
-Port = 6901
-Filename = "datastream.bin"
+Port = 6902
+Filename = "./datastream.bin"
 Version = 1
-ChainID = 1440
-UpgradeEtrogBatchNumber = 0
+ChainID = 686868
+UpgradeEtrogBatchNumber = 1642245
 
 [StateDB]
 User = "state_user"
 Password = "state_password"
 Name = "state_db"
-Host = "localhost"
-Port = "5432"
+Host = "43.134.127.80"
+Port = "15432"
 EnableLog = false
 MaxConns = 200
 
 [Executor]
-URI = "zkevm-prover:50071"
+URI = "43.134.127.80:50071"
 MaxGRPCMessageSize = 100000000
 
 [MerkleTree]
-URI = "zkevm-prover:50061"
+URI = "43.134.127.80:50061"
 MaxThreads = 20
 CacheFile = "merkle_tree_cache.json"
 
 [Log]
 Environment = "development"
-Level = "error"
+Level = "debug"
 Outputs = ["stdout"]

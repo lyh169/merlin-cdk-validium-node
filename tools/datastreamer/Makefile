@@ -54,6 +54,11 @@ help: ## Prints this help
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.DEFAULT: 
+BUILD_FLAGS := -ldflags '$(ldflags)'
+
+build:
+	go build $(BUILD_FLAGS) -o ./  main.go
+
+.DEFAULT:
 	@echo ""
 
