@@ -7,7 +7,7 @@ Port = 6902
 Filename = "./datastream.bin"
 Version = 1
 ChainID = 686868
-UpgradeEtrogBatchNumber = 1642245
+UpgradeEtrogBatchNumber = 743692
 
 [StateDB]
 User = "state_user"
