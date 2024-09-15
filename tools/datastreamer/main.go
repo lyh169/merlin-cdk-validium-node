@@ -317,8 +317,6 @@ func getImStateRoots(ctx context.Context, start, end uint64, isStateRoots *map[u
 			os.Exit(1)
 		}
 
-		fmt.Println("l2block root is", l2Block.Root())
-
 		stateRoot := l2Block.Root()
 		// Populate intermediate state root
 		position := state.GetSystemSCPosition(x)
