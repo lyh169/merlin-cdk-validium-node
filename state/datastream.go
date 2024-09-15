@@ -241,7 +241,7 @@ type DSState interface {
 }
 
 // GenerateDataStreamerFile generates or resumes a data stream file
-func GenerateDataStreamerFile(ctx context.Context, streamServer *datastreamer.StreamServer, stateDB DSState, readWIPBatch bool, imStateRoots *map[uint64][]byte, chainID uint64, upgradeEtrogBatchNumber uint64) error {
+func GenerateDataStreamerFile(ctx context.Context, streamServer *datastreamer.StreamServer, stateDB DSState, readWIPBatch bool, imStateRoots *map[uint64][]byte, chainID uint64, upgradeEtrogBatchNumber, endL2BlockNumber uint64) error {
 	header := streamServer.GetHeader()
 
 	var currentBatchNumber uint64 = 0
@@ -603,6 +603,10 @@ func GenerateDataStreamerFile(ctx context.Context, streamServer *datastreamer.St
 			if err != nil {
 				return err
 			}
+		}
+		if len(l2Blocks) > 0 && l2Blocks[0].L2BlockNumber > endL2BlockNumber {
+			log.Infof("process the end L2BlockNumber is : %d  %d", l2Blocks[0].L2BlockNumber, endL2BlockNumber)
+			break
 		}
 	}
 

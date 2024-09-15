@@ -142,7 +142,7 @@ func (s *Sequencer) checkStateInconsistency(ctx context.Context) {
 }
 
 func (s *Sequencer) updateDataStreamerFile(ctx context.Context, chainID uint64) {
-	err := state.GenerateDataStreamerFile(ctx, s.streamServer, s.stateIntf, true, nil, chainID, s.cfg.StreamServer.UpgradeEtrogBatchNumber)
+	err := state.GenerateDataStreamerFile(ctx, s.streamServer, s.stateIntf, true, nil, chainID, s.cfg.StreamServer.UpgradeEtrogBatchNumber, 1000000000000)
 	if err != nil {
 		log.Fatalf("failed to generate data streamer file, error: %v", err)
 	}

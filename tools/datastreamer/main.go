@@ -85,6 +85,7 @@ func main() {
 			Action:  generate,
 			Flags: []cli.Flag{
 				&configFileFlag,
+				&l2blockFlag,
 			},
 		},
 		{
@@ -188,6 +189,8 @@ func generate(cliCtx *cli.Context) error {
 		os.Exit(1)
 	}
 
+	endL2BlockNumber := cliCtx.Uint64("l2block")
+
 	// Connect to the database
 	stateSqlDB, err := db.NewSQLDB(c.StateDB)
 	if err != nil {
@@ -273,7 +276,7 @@ func generate(cliCtx *cli.Context) error {
 		}
 	}
 
-	err = state.GenerateDataStreamerFile(cliCtx.Context, streamServer, stateDB, false, &imStateRoots, c.Offline.ChainID, c.Offline.UpgradeEtrogBatchNumber) // nolint:gomnd
+	err = state.GenerateDataStreamerFile(cliCtx.Context, streamServer, stateDB, false, &imStateRoots, c.Offline.ChainID, c.Offline.UpgradeEtrogBatchNumber, endL2BlockNumber) // nolint:gomnd
 	if err != nil {
 		log.Error(err)
 		os.Exit(1)
@@ -313,6 +316,8 @@ func getImStateRoots(ctx context.Context, start, end uint64, isStateRoots *map[u
 			log.Errorf("Error: %v\n", err)
 			os.Exit(1)
 		}
+
+		fmt.Println("l2block root is", l2Block.Root())
 
 		stateRoot := l2Block.Root()
 		// Populate intermediate state root
